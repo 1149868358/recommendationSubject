@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="com.cn.bjut.dao.IUserDao">
+	    
+	    <select id="selectUserById" resultType="com.cn.bjut.pojo.User">
+	        select * from User_tab where user_id = #{userId} 
+	    </select>
+	    
+	    <insert id="insertUser" parameterType="com.cn.bjut.pojo.User">
+           <!-- oracle等不支持id自增长的，可根据其id生成策略，先获取id 
+           
+	        <selectKey resultType="int" order="BEFORE" keyProperty="id">
+	              select seq_user_id.nextval as id from dual
+	        </selectKey>
+	        
+	        -->   
+           insert into User_tab(user_id, age, gender, occupation) 
+               values(#{userId}, #{age}, #{gender}, #{occupation})
+        </insert>
+        
+        <select id="selectAllUser" resultType="com.cn.bjut.pojo.User">
+	        select user_id as userId,age,gender,occupation from User_tab
+	    </select>
+	</mapper>

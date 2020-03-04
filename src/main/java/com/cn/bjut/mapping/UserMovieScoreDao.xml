@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="com.cn.bjut.dao.UserMovieScoreDao">
+	    
+	    <select id="selectUserMovieScoreByUserId" resultType="com.cn.bjut.pojo.UserMovieScore">
+	        select user_id as userId,movie_id as movieId,score,ifTestData from UserMovieScore_tab 
+	        where user_id = #{userId} and ifTestData = #{ifTestData} 
+	    </select>
+	    
+	    <insert id="insertUserMovieScore" parameterType="com.cn.bjut.pojo.UserMovieScore">
+            
+           insert into UserMovieScore_tab(user_id, movie_id, score, date, ifTestData) 
+               values(#{userId}, #{movieId}, #{score}, #{date}, #{ifTestData})
+   </insert>
+	</mapper>

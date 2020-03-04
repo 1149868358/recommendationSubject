@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="com.cn.bjut.dao.TrustSimilarityDao">
+	    
+	    <!-- 新增 -->
+	    <insert id="insertTrustSimilarity" parameterType="com.cn.bjut.pojo.TrustSimilarity">
+           
+           insert into TrustSimilarity_tab(user_id1, user_id2, mediumUserId, jacCard, personSimilarity, trustSimilarity, ifDtrust) 
+               values(#{userId1}, #{userId2}, #{mediumUserId}, #{jacCard}, #{personSimilarity}, #{trustSimilarity}, #{ifDtrust})
+        </insert>
+        
+        <!-- 更新 -->
+	    <update id="updateTrustSimilarity"  parameterType="com.cn.bjut.pojo.TrustSimilarity">
+		 update TrustSimilarity_tab SET user_id1=#{userId1},user_id2=#{userId2},mediumUserId=#{mediumUserId},
+		        jacCard=#{jacCard},personSimilarity=#{personSimilarity},trustSimilarity=#{trustSimilarity},ifDtrust=#{ifDtrust}
+		 where (user_id1=#{userId1} and user_id2=#{userId2}) or (user_id1=#{userId2} and user_id2=#{userId1})
+		</update>
+	    
+	    
+        <select id="selectTrustSimilarityByUserId" resultType="com.cn.bjut.pojo.TrustSimilarity">
+	        select user_id1 as userId1,user_id2 as userId2,mediumUserId,jacCard,personSimilarity, trustSimilarity, ifDtrust 
+	        from TrustSimilarity_tab WHERE (user_id1 = #{userId1} and user_id2 = #{userId2}) or (user_id1 = #{userId2} and user_id2 = #{userId1})
+	        <if test="ifDtrust != null and ifDtrust != ''">
+				AND ifDtrust = #{ifDtrust}
+			</if>
+			<!-- <if test="userId1 != null and userId1 != ''">
+				AND userId1 = #{userId1}
+			</if>
+			<if test="userId2 != null and userId2 != ''">
+				AND userId2 = #{userId2}
+			</if> -->
+			
+	    </select>
+	    
+	    <select id="selectDtrustByUserId" resultType="com.cn.bjut.pojo.TrustSimilarity">
+	        select user_id1 as userId1,user_id2 as userId2,mediumUserId,jacCard,personSimilarity, trustSimilarity, ifDtrust 
+	        from TrustSimilarity_tab WHERE ifDtrust=true and  (user_id1 = #{userId}) or (user_id2 = #{userId})
+	        
+			
+	    </select>
+	    <select id="selectPtrustByUserId" resultType="com.cn.bjut.pojo.TrustSimilarity">
+	        select user_id1 as userId1,user_id2 as userId2,mediumUserId,jacCard,personSimilarity, trustSimilarity, ifDtrust 
+	        from TrustSimilarity_tab WHERE ifDtrust=false and (user_id1 = #{userId}) or (user_id2 = #{userId}) 
+	        
+			
+	    </select>
+	</mapper>

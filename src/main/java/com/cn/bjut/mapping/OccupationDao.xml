@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="com.cn.bjut.dao.OccupationDao">
+	    
+	    <select id="selectOccupationByName" resultType="com.cn.bjut.pojo.Occupation">
+	        select * from Occupation_tab where occupationName = #{occupationName} 
+	    </select>
+	    
+	    <insert id="insertOccupation" parameterType="com.cn.bjut.pojo.Occupation">
+            
+           insert into Occupation_tab(occupation_id, occupationName, x, y) 
+               values(#{occupationId}, #{occupationName}, #{x}, #{y})
+        </insert>
+        
+	</mapper>
