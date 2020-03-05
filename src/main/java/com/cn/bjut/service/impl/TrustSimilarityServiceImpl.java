@@ -193,24 +193,26 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 
 		List<User> userList = userService.getAllUser();
 		//int i = 100;
-		int i = 101;
+		int i = 140;
+		Map<Integer,Map<String,Object>> allUserIdsListMap = getAllUserIdsDTrustMap(userList);
 		for( ;i < userList.size();i++){
 			
 			int userId1 = userList.get(i).getUserId();
 			//找到与本用户有直接信任度的所有用户集合
-			Map<String, Object> dTrustMap2 = dealDTrustByUserId(userId1);
+			//Map<String, Object> dTrustMap2 = dealDTrustByUserId(userId1);
+			Map<String, Object> dTrustMap2 = allUserIdsListMap.get(userId1);
 			//将与本用户有间接相似度的用户id放到一个集合中避免接下来的校验中多次查询数据库
 			Set<Integer> pTrustSet = dealPTrustByUserId(userId1);
 			if(null == dTrustMap2)continue;
 			List<Integer> userId2List = (List<Integer>)dTrustMap2.get("userIdOtherList");
 			
 			//一次将全部userId2List加载到内存中，减少查询数据库的次数
-			Map<Integer,Map<String,Object>> allUserIdsListMap = new HashMap<Integer,Map<String,Object>>();
+			/*Map<Integer,Map<String,Object>> allUserIdsListMap = new HashMap<Integer,Map<String,Object>>();
 			for(int k=0; k<userId2List.size(); k++){
 				int userId2 = userId2List.get(k);
 				Map<String, Object> dTrustMap3 = dealDTrustByUserId(userId2);
 				allUserIdsListMap.put(userId2, dTrustMap3);
-			}
+			}*/
 			for(int j=0; j<userId2List.size(); j++){
 				
 				int userId2 = userId2List.get(j);
@@ -290,6 +292,19 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 	}
 
 	
+
+	private Map<Integer, Map<String, Object>> getAllUserIdsDTrustMap(List<User> userList) {
+		//一次将全部用户的直接信任度全部按照相应格式组织起来加载到内存中，减少查询数据库的次数
+		
+		Map<Integer,Map<String,Object>> allUserIdsListMap = new HashMap<Integer,Map<String,Object>>();
+		for(int k=0; k<userList.size(); k++){
+			int userId2 = userList.get(k).getUserId();
+			Map<String, Object> dTrustMap3 = dealDTrustByUserId(userId2);
+			allUserIdsListMap.put(userId2, dTrustMap3);
+		}
+		
+		return allUserIdsListMap;
+	}
 
 	//找到与本用户有直接信任度的所有用户集合
 	private Map<String, Object> dealDTrustByUserId(int userId) {
