@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+	<mapper namespace="com.cn.bjut.dao.TotalSimilarityDao">
+	    
+	    <select id="selectUserById" resultType="com.cn.bjut.pojo.User">
+	        select * from User_tab where user_id = #{userId} 
+	    </select>
+	    
+	    <insert id="insertTotalSimilarity" parameterType="com.cn.bjut.pojo.TotalSimilrity">
+           insert into TotalSimilrity_tab(user_id1, user_id2, totalSimilarity, date) 
+               values(#{userId1}, #{userId2}, #{totalSimilarity}, #{date})
+        </insert>
+        
+        <select id="selectAllUser" resultType="com.cn.bjut.pojo.User">
+	        select user_id as userId,age,gender,occupation from User_tab
+	    </select>
+	</mapper>

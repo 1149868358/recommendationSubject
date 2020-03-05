@@ -192,8 +192,8 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 	public void pTrustSimilarityCal() {
 
 		List<User> userList = userService.getAllUser();
-		//int i = 500;
-		int i = 4;
+		//int i = 100;
+		int i = 101;
 		for( ;i < userList.size();i++){
 			
 			int userId1 = userList.get(i).getUserId();
@@ -204,10 +204,18 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 			if(null == dTrustMap2)continue;
 			List<Integer> userId2List = (List<Integer>)dTrustMap2.get("userIdOtherList");
 			
+			//一次将全部userId2List加载到内存中，减少查询数据库的次数
+			Map<Integer,Map<String,Object>> allUserIdsListMap = new HashMap<Integer,Map<String,Object>>();
+			for(int k=0; k<userId2List.size(); k++){
+				int userId2 = userId2List.get(k);
+				Map<String, Object> dTrustMap3 = dealDTrustByUserId(userId2);
+				allUserIdsListMap.put(userId2, dTrustMap3);
+			}
 			for(int j=0; j<userId2List.size(); j++){
 				
 				int userId2 = userId2List.get(j);
-				Map<String, Object> dTrustMap3 = dealDTrustByUserId(userId2);
+				//Map<String, Object> dTrustMap3 = dealDTrustByUserId(userId2);
+				Map<String, Object> dTrustMap3 = allUserIdsListMap.get(userId2);
 				if(null == dTrustMap3)continue;
 				List<Integer> userId3List = (List<Integer>)dTrustMap3.get("userIdOtherList");
 				List<Integer> list = new ArrayList<Integer>(userId3List);
@@ -244,10 +252,11 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 					//此次循环找到与userId2一样与userId3有直接相似度的用户
 					for(Integer otherBetweenUser : userId2List){
 						if(otherBetweenUser == userId2)continue;
-						TrustSimilarity tsBetween = getTrustByUserId(otherBetweenUser,userId3,dTrust); //看看这两个用户有没有直接信任度
-						if(null == tsBetween)continue;
+						//TrustSimilarity tsBetween = getTrustByUserId(otherBetweenUser,userId3,dTrust); //看看这两个用户有没有直接信任度
+						Map<Integer, Double> tsBetweenMap = (Map<Integer, Double>)allUserIdsListMap.get(otherBetweenUser).get("userIdOtherDTrustMap");//看看这两个用户有没有直接信任度
+						if(null == tsBetweenMap.get(userId3))continue;
 						
-						mediumUserMap.put(otherBetweenUser, new double[]{userId2DTrustMap.get(otherBetweenUser),tsBetween.getTrustSimilarity()});
+						mediumUserMap.put(otherBetweenUser, new double[]{userId2DTrustMap.get(otherBetweenUser),tsBetweenMap.get(userId3)});
 					}
 					
 					//mediumUserMap中已经把所有的userId1与userId3之间的传递用户，以及双方的信任度汇总出来

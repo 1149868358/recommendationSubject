@@ -10,4 +10,6 @@ public interface TrustSimilarityService {
 
 	public void pTrustSimilarityCal();
 
+	public TrustSimilarity getTrustSimilarityByUser1AndUser2(int userId1, int userId2);
+
 }
