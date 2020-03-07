@@ -2,6 +2,8 @@ package com.cn.bjut.service.impl;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -96,7 +98,10 @@ public class AttributeSimilarityServiceImpl implements AttributeSimilarityServic
 	}
 
 	public AttributeSimilarity getAttributeSimilarityTwoUser(int userId1, int userId2) {
-		return attriDao.selectAttributeSimilarityById(userId1,userId2);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("userId1", userId1);
+		paramsMap.put("userId2", userId2);
+		return attriDao.selectAttributeSimilarityById(paramsMap);
 	}
 
 	

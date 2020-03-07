@@ -6,7 +6,7 @@
 	<mapper namespace="com.cn.bjut.dao.AttributeSimilarityDao">
 	    
 	    <select id="selectAttributeSimilarityById" resultType="com.cn.bjut.pojo.AttributeSimilarity">
-	        select * from AttributeSimilarity_tab where (user1 = #{user1} and user2 = #{user2})or(user1 = #{user2} and user2 = #{user1}) 
+	        select * from AttributeSimilarity_tab where (user_id1 = #{userId1} and user_id2 = #{userId2})or(user_id1 = #{userId2} and user_id2 = #{userId1}) 
 	    </select>
 	    
 	    <insert id="insertAttributeSimilarity" parameterType="com.cn.bjut.pojo.AttributeSimilarity">

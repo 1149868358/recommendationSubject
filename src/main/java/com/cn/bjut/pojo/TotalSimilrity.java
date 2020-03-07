@@ -2,16 +2,16 @@ package com.cn.bjut.pojo;
 
 import java.util.Date;
 /**
- * ç”¨æˆ·ç»¼åˆç›¸ä¼¼åº¦
+ * ×ÜÏàËÆ¶ÈÊµÌåÀà
  * @author Administrator
  *
  */
-public class TotalSimilrity {
+public class TotalSimilrity implements Comparable<TotalSimilrity>{
 
 	public int userId1;
 	public int userId2;
 	public double totalSimilarity;
-	public Date date;  //è®¡ç®—æ—¶é—´
+	public String date;  //²åÈëÊ±¼ä
 	
 	
 	public int getUserId1() {
@@ -32,11 +32,23 @@ public class TotalSimilrity {
 	public void setTotalSimilarity(double totalSimilarity) {
 		this.totalSimilarity = totalSimilarity;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
+	}
+	
+	
+	
+	public int compareTo(TotalSimilrity o) {
+
+		if(this.totalSimilarity > o.getTotalSimilarity()){
+			return 1;
+		}else if(this.totalSimilarity < o.getTotalSimilarity()){
+			return -1;
+		}
+		return 0;
 	}
 	
 	

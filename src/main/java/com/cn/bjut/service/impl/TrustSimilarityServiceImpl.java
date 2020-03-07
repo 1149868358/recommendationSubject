@@ -192,8 +192,7 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 	public void pTrustSimilarityCal() {
 
 		List<User> userList = userService.getAllUser();
-		//int i = 100;
-		int i = 140;
+		int i = 0;
 		Map<Integer,Map<String,Object>> allUserIdsListMap = getAllUserIdsDTrustMap(userList);
 		for( ;i < userList.size();i++){
 			

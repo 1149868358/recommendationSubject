@@ -15,12 +15,14 @@ import com.cn.bjut.service.AttributeSimilarityService;
 import com.cn.bjut.service.IUserService;
 import com.cn.bjut.service.TotalSimilarityService;
 import com.cn.bjut.service.TrustSimilarityService;
+import static com.cn.bjut.tool.Tool.TOTALSIMILARITY1;
+import static com.cn.bjut.tool.Tool.TOTALSIMILARITY2;
+import static com.cn.bjut.tool.Tool.timeFormate;
 
 @Service("totalSimilarityService")
 public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 
-	public static double TOTALSIMILARITY1 = 0.1d;
-	public static double TOTALSIMILARITY2 = 0.9d;
+	
 	
 	@Autowired
 	private IUserService userService;
@@ -33,7 +35,7 @@ public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 	
 	
 	/**
-	 * æœ¬æ–¹æ³•æ ¹æ®å·²ç»è®¡ç®—å¥½çš„å±æ€§ç›¸ä¼¼åº¦ï¼Œä¿¡ä»»åº¦ç­‰æ¡ä»¶è®¡ç®—ç»¼åˆç›¸ä¼¼åº¦
+	 * ±¾·½·¨¼ÆËã×ÛºÏÏàËÆ¶È
 	 */
 	public void TotalSimilarityCalucate() {
 		
@@ -41,11 +43,11 @@ public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 		int i = 0;
 		for(; i <= userList.size(); i++){
 			int userId1 = userList.get(i).getUserId();
-			for(int j=i ; j <= userList.size() ; j++){
-				//æ€»ç›¸ä¼¼åº¦ = a*å±æ€§ç›¸ä¼¼åº¦ + b*ä¿¡ä»»åº¦
+			for(int j=i+1 ; j <= userList.size() ; j++){
+				//×ÛºÏÏàËÆ¶È = a*ÊôĞÔÏàËÆ¶È + b*ĞÅÈÎ¶È
 				int userId2 = userList.get(j).getUserId();
 				AttributeSimilarity attribute = attriService.getAttributeSimilarityTwoUser(userId1, userId2);
-				//æ‹¿åˆ°ç”¨æˆ·1å’Œç”¨æˆ·2çš„å±æ€§ç›¸ä¼¼åº¦
+				//
 				double attributeSim = 0d;
 				if(null != attribute)attributeSim = attribute.getAttributeSim();
 				
@@ -55,15 +57,20 @@ public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 				
 				double totalSimilarity = TOTALSIMILARITY1*attributeSim + TOTALSIMILARITY2*trustSim;
 				
-				//å…¥åº“
+				//Èë¿â
 				TotalSimilrity total = new TotalSimilrity();
-				total.setDate(new Date());
+				total.setDate(timeFormate(new Date()));
 				total.setUserId1(userId1);
 				total.setUserId2(userId2);
 				total.setTotalSimilarity(totalSimilarity);
 				totalSimilarityDao.insertTotalSimilarity(total);
 			}
 		}
+	}
+
+
+	public List<TotalSimilrity> getTotalSimilarityByUserId(int userId) {
+		return totalSimilarityDao.selectTotalSimilarityByUserId(userId);
 	}
 
 }
