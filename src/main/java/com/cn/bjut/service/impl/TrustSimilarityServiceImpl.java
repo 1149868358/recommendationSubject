@@ -348,6 +348,11 @@ public class TrustSimilarityServiceImpl implements TrustSimilarityService {
 		paramsMap.put("userId2", userId2);
 		return trustSimilarityDao.selectTrustSimilarityByUserId(paramsMap);
 	}
+
+	public List<TrustSimilarity> getTrustSimilarityByUserId(int userId) {
+		
+		return trustSimilarityDao.selectTrustListByUserId(userId);
+	}
 	
 	
 	

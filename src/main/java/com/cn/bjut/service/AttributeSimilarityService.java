@@ -1,5 +1,7 @@
 package com.cn.bjut.service;
 
+import java.util.List;
+
 import com.cn.bjut.pojo.AttributeSimilarity;
 import com.cn.bjut.pojo.User;
 
@@ -17,4 +19,6 @@ public interface AttributeSimilarityService {
 			double genderSimilarity);
 	
 	public AttributeSimilarity getAttributeSimilarityTwoUser(int userId1, int userId2);
+
+	public List<AttributeSimilarity> getAttributeSimilarityByUserId(int userId1);
 }

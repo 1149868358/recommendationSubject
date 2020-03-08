@@ -13,12 +13,25 @@ public class Tool {
 	 * 下列参数为可调节参数：
 	 */
 	
+	//年龄计算参数，以5岁为分界
+	public static int range = 5;
+	
+	//属性相似度 = a*年龄相似度+b*性别相似度+c*职业相似度
+	public static double a = 0.1d;
+	public static double b = 0.5d;
+	//那么参数  c = 1-a-b;
+	
+	//职业坐标系的斜对角，即最远距离
+	public static double maxLength = Math.sqrt(Math.pow(2d, 2)+Math.pow(8d, 2));
+		
+		
 	//最近邻用户数
 	public static int NUser =  30;
 	
 	//计算总相似度时属性相似度的比例：TOTALSIMILARITY1，信任度的比例：TOTALSIMILARITY2
 	public static double TOTALSIMILARITY1 = 0.1d;
 	public static double TOTALSIMILARITY2 = 0.9d;
+	
 	
 	/**
 	 * 以上为动态调节参数

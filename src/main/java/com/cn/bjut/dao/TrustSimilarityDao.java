@@ -17,4 +17,6 @@ public interface TrustSimilarityDao {
 
 	List<TrustSimilarity> selectPtrustByUserId(int userId);
 
+	List<TrustSimilarity> selectTrustListByUserId(int userId);
+
 }

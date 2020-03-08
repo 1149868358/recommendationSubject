@@ -47,4 +47,10 @@
 	        
 			
 	    </select>
+	    <select id="selectTrustListByUserId" resultType="com.cn.bjut.pojo.TrustSimilarity">
+	        select user_id1 as userId1,user_id2 as userId2,mediumUserId,jacCard,personSimilarity, trustSimilarity, ifDtrust 
+	        from TrustSimilarity_tab WHERE (user_id1 = #{userId}) or (user_id2 = #{userId})
+	        
+			
+	    </select>
 	</mapper>

@@ -1,8 +1,13 @@
 package com.cn.bjut.service.impl;
 
-import java.math.BigDecimal;
+import static com.cn.bjut.tool.Tool.a;
+import static com.cn.bjut.tool.Tool.b;
+import static com.cn.bjut.tool.Tool.maxLength;
+import static com.cn.bjut.tool.Tool.range;
+
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -19,17 +24,7 @@ import com.cn.bjut.service.OccupationService;
 @Service("attriService")
 public class AttributeSimilarityServiceImpl implements AttributeSimilarityService {
 
-	//年龄计算参数，以5岁为分界
-	public static int range = 5;
-	
-	//属性相似度 = a*年龄相似度+b*性别相似度+c*职业相似度
-	public static double a = 0.1d;
-	public static double b = 0.5d;
-	//那么参数  c = 1-a-b;
-	
-	//职业坐标系的斜对角，即最远距离
-	public static double maxLength = Math.sqrt(Math.pow(2d, 2)+Math.pow(8d, 2));
-	
+
 	@Resource
 	private AttributeSimilarityDao attriDao;
 	@Resource
@@ -102,6 +97,11 @@ public class AttributeSimilarityServiceImpl implements AttributeSimilarityServic
 		paramsMap.put("userId1", userId1);
 		paramsMap.put("userId2", userId2);
 		return attriDao.selectAttributeSimilarityById(paramsMap);
+	}
+
+	public List<AttributeSimilarity> getAttributeSimilarityByUserId(int userId) {
+		
+		return attriDao.selectAttributeSimByUserId(userId);
 	}
 
 	
