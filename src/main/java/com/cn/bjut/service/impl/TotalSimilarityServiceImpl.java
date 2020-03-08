@@ -40,10 +40,10 @@ public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 	public void TotalSimilarityCalucate() {
 		
 		List<User> userList = userService.getAllUser();
-		int i = 0;
-		for(; i <= userList.size(); i++){
+		int i = 301;
+		for(; i < userList.size(); i++){
 			int userId1 = userList.get(i).getUserId();
-			for(int j=i+1 ; j <= userList.size() ; j++){
+			for(int j=i+1 ; j < userList.size() ; j++){
 				//综合相似度 = a*属性相似度 + b*信任度
 				int userId2 = userList.get(j).getUserId();
 				AttributeSimilarity attribute = attriService.getAttributeSimilarityTwoUser(userId1, userId2);
