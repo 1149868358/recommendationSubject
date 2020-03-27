@@ -52,7 +52,7 @@ public class MAECalServiceImpl implements MAECalService {
 			
 			//所需的信息-->用户的平均分，项目：评分{userId:{averageScore:**;movieScoreMap:{movieId:score}}}
 			//将这N个用户的所需信息一次加载到内存中
-			Map<Integer,Map<String,Object>> userIdScoreMap = null;
+			Map<Integer,Map<String,Object>> userIdScoreMap = new HashMap<Integer,Map<String, Object>>();
 			for(Entry<Integer,Double> entry : topNMap.entrySet()){
 				//相似用户的Id
 				int userIdSim = (Integer)entry.getKey();
@@ -86,17 +86,24 @@ public class MAECalServiceImpl implements MAECalService {
 					sMap.put("totalSim", topNMap.get(entry.getKey()));
 					evaluateSingleScoreList.add(sMap);
 				}
-				//循环完毕后可计算某项目的预测评分
-				double averageScore1 = ctd(currentUserIdScoreMap.get("averageScore"));
-				
-				double fenzi = 0d;
-				double fenmu = 0d;
-				for(Map<String, Object> emap : evaluateSingleScoreList){
-					fenzi += ctd(emap.get("totalSim"))*(ctd(emap.get("movieIdScore")) - ctd(emap.get("averageScore")));
-					fenmu += ctd(emap.get("totalSim"));
+				//邻居用户没有人对该电影有过评分则该电影推荐评分为0d
+				double evaluateScore = 0d;
+				if(evaluateSingleScoreList.size() > 0){
+					
+					//循环完毕后可计算某项目的预测评分
+					double averageScore1 = ctd(currentUserIdScoreMap.get("averageScore"));
+					
+					double fenzi = 0d;
+					double fenmu = 0d;
+					for(Map<String, Object> emap : evaluateSingleScoreList){
+						fenzi += ctd(emap.get("totalSim"))*(ctd(emap.get("movieIdScore")) - ctd(emap.get("averageScore")));
+						fenmu += ctd(emap.get("totalSim"));
+					}
+					evaluateScore = averageScore1 + df5(fenzi/fenmu);
+					logger.info("用户" + userId + " 对电影" + movieId + " 的预测评分为 ：" + evaluateScore);
+				}else{
+					logger.info("用户" + userId + " 对电影" + movieId + " 无预测评分");
 				}
-				double evaluateScore = averageScore1 + df5(fenzi/fenmu);
-				logger.info("用户" + userId + " 对电影" + movieId + " 的预测评分为 ：" + evaluateScore);
 				evaluateMap.put(movieId, evaluateScore);
 			}
 			

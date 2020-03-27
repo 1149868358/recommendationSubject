@@ -6,7 +6,7 @@
 	<mapper namespace="com.cn.bjut.dao.TotalSimilarityDao">
 	    
 	    <select id="selectTotalSimilarityByUserId" resultType="com.cn.bjut.pojo.TotalSimilrity">
-	        select * from TotalSimilrity_tab where user_id1 = #{userId} or user_id2 = #{userId} 
+	        select user_id1 as userId1,user_id2 as userId2,totalSimilarity,date from TotalSimilrity_tab where user_id1 = #{userId} or user_id2 = #{userId} 
 	    </select>
 	    
 	    <insert id="insertTotalSimilarity" parameterType="com.cn.bjut.pojo.TotalSimilrity">

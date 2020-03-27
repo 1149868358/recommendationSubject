@@ -42,7 +42,7 @@ public class TotalSimilarityServiceImpl implements TotalSimilarityService {
 	public void TotalSimilarityCalucate() {
 		
 		List<User> userList = userService.getAllUser();
-		int i = 400;
+		int i = 0;
 		for(; i < userList.size(); i++){
 			int userId1 = userList.get(i).getUserId();
 			//分别查询userId1和userId2的属性相似度和信任度四十四万条数据需要九十万次查询，太慢了，现在优化为如下代码

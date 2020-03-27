@@ -29,8 +29,8 @@ public class Tool {
 	public static int NUser =  30;
 	
 	//计算总相似度时属性相似度的比例：TOTALSIMILARITY1，信任度的比例：TOTALSIMILARITY2
-	public static double TOTALSIMILARITY1 = 0.1d;
-	public static double TOTALSIMILARITY2 = 0.9d;
+	public static double TOTALSIMILARITY1 = 0.2d;
+	public static double TOTALSIMILARITY2 = 0.8d;
 	
 	
 	/**
