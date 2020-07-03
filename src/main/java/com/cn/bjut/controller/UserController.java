@@ -14,7 +14,7 @@ import com.cn.bjut.service.IUserService;
 @RequestMapping("/user")
 public class UserController {
 
-	
+	//第一次修改
 	@Resource
 	private IUserService userService;
 	
