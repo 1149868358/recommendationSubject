@@ -15,6 +15,7 @@ import com.cn.bjut.service.IUserService;
 public class UserController {
 
 	//第一次修改
+	//第二次修改
 	@Resource
 	private IUserService userService;
 	
